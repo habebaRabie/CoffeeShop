@@ -1,0 +1,60 @@
+[
+    {
+    	"id": 2,
+    	"name": "cappuccino",
+    	"price": 48,
+    	"image": "src/main/resources/static/products/cappuccino.png",
+    	"size": 3,
+    	"sugar": 3,
+    	"is_added_to_cart": false,
+    	"bought_items_count": 2
+    },
+
+    {
+    	"id": 2,
+    	"name": "espresso",
+    	"price": 35,
+    	"image": "src/main/resources/static/products/espresso.png",
+    	"size": 3,
+    	"sugar": 3,
+    	"is_added_to_cart": false,
+    	"bought_items_count": 2
+    },
+
+    {
+    	"id": 2,
+    	"name": "latte",
+    	"price": 64,
+    	"image": "src/main/resources/static/products/latte.png",
+    	"size": 3,
+    	"sugar": 3,
+    	"is_added_to_cart": false,
+    	"bought_items_count": 2
+    },
+
+    {
+    	"id": 2,
+    	"name": "latte-macchiato",
+    	"price": 69,
+    	"image": "src/main/resources/static/products/latte-macchiato.png",
+    	"size": 3,
+    	"sugar": 3,
+    	"is_added_to_cart": false,
+    	"bought_items_count": 2
+    },
+
+    {
+    	"id": 2,
+    	"name": "mocha",
+    	"price": 61,
+    	"image": "src/main/resources/static/products/mocha.png",
+    	"size": 3,
+    	"sugar": 3,
+    	"is_added_to_cart": false,
+    	"bought_items_count": 2
+    }
+
+
+
+
+]
