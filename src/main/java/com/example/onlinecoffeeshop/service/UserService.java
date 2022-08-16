@@ -2,11 +2,13 @@ package com.example.onlinecoffeeshop.service;
 
 import com.example.onlinecoffeeshop.dto.CustomUser;
 import com.example.onlinecoffeeshop.dto.UserDto;
+import com.example.onlinecoffeeshop.entity.Cart;
 import com.example.onlinecoffeeshop.entity.User;
 import com.example.onlinecoffeeshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.findByEmail(email);
 
+
         if (user == null)
             throw new UsernameNotFoundException("Email: " + email + " Not found");
 
@@ -50,14 +53,23 @@ public class UserService implements UserDetailsService {
     }
 
     //Registration
-    public User createNewUser(UserDto userDto) throws Exception {
+    public ResponseEntity<?> createNewUser(UserDto userDto) throws Exception {
         if (userRepository.findByEmail(userDto.getEmail()) != null) {
-            throw HttpClientErrorException.BadRequest.create(HttpStatus.BAD_REQUEST, "Email already exists", HttpHeaders.EMPTY, null, null);
-
+            return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);
         }
-        User newUser = new User(null,userDto.getUserName(), userDto.getEmail(), bCryptPasswordEncoder.encode(userDto.getPassword()));
-        return userRepository.save(newUser);
+        List<Cart> cartList = new ArrayList<>();
+        User newUser;
+        try {
+            newUser = new User(null, userDto.getUserName(), userDto.getEmail(), bCryptPasswordEncoder.encode(userDto.getPassword()), cartList);
+            return ResponseEntity.ok(userRepository.save(newUser));
 
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
 }

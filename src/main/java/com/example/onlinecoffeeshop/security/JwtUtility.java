@@ -1,8 +1,8 @@
 package com.example.onlinecoffeeshop.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,13 @@ public class JwtUtility {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtility.class);
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
 
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
@@ -30,6 +33,7 @@ public class JwtUtility {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
@@ -50,8 +54,24 @@ public class JwtUtility {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token) {
+        //parse the token
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true;
+        } catch (
+                SignatureException e) {
+            logger.error("Invalid JWT signature: {}", e.getMessage());
+        } catch (
+                MalformedJwtException e) {
+            logger.error("Invalid JWT token: {}", e.getMessage());
+        } catch (ExpiredJwtException e) {
+            logger.error("JWT token is expired: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("JWT token is unsupported: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("JWT claims string is empty: {}", e.getMessage());
+        }
+        return false;
     }
 }

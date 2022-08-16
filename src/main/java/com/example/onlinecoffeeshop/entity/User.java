@@ -2,14 +2,14 @@ package com.example.onlinecoffeeshop.entity;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity(name = "users")
-public class User {
+public class  User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -21,11 +21,29 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Cart> userCart;
+
 
     public User(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
         this.password = password;
+    }
+
+    public User(Long id, String userName, String email, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Long id, String userName, String email, String password, List<Cart> userCart) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.userCart = userCart;
     }
 
 
