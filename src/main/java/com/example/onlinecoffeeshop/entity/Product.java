@@ -32,4 +32,14 @@ public class Product {
     private boolean isAddedToCart;
     @Column(name = "bought_items_count")
     private int boughtItemsCount;
+
+    public Product(String name, Double price, String image, int size, int sugar, boolean isAddedToCart, int boughtItemsCount) {
+        this.name = name;
+        this.price = price;
+        this.image = image;
+        this.size = size;
+        this.sugar = sugar;
+        this.isAddedToCart = isAddedToCart;
+        this.boughtItemsCount = boughtItemsCount;
+    }
 }

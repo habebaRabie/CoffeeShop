@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("user/v1")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
