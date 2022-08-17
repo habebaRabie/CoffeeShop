@@ -24,7 +24,7 @@ public class ProductsController {
     }
 
     @GetMapping(value = "/getByName", params = "name")
-    public Product getProductByName(@RequestParam("name") String name) {
+    public ResponseEntity<?> getProductByName(@RequestParam("name") String name) {
         return productService.getProductByName(name);
     }
 

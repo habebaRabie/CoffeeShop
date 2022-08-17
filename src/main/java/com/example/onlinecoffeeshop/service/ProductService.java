@@ -32,11 +32,11 @@ public class ProductService {
         return productsResponseList;
     }
 
-    public Product getProductByName(String name) {
+    public ResponseEntity<?> getProductByName(String name) {
         if(productRepository.findByName(name) != null){
-            return productRepository.findByName(name);
+            return ResponseEntity.ok(productRepository.findByName(name));
         }
-        return null;
+        return ResponseEntity.badRequest().body("Product with name " + name + " does not exist");
     }
 
     public ResponseEntity<?> createNewProduct(ProductRequest productRequest) {

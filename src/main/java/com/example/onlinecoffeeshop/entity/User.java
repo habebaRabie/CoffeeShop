@@ -21,8 +21,8 @@ public class  User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Cart> userCart;
+//    @OneToMany(mappedBy = "user")
+//    private List<Cart> userCart;
 
 
     public User(String userName, String email, String password) {
@@ -38,13 +38,13 @@ public class  User {
         this.password = password;
     }
 
-    public User(Long id, String userName, String email, String password, List<Cart> userCart) {
-        this.id = id;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.userCart = userCart;
-    }
+//    public User(Long id, String userName, String email, String password, List<Cart> userCart) {
+//        this.id = id;
+//        this.userName = userName;
+//        this.email = email;
+//        this.password = password;
+//        this.userCart = userCart;
+//    }
 
 
 }

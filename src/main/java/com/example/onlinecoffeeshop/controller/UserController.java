@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
     private UserService userService;
     @Autowired
     private JwtUtility jwtTokenUtil;
@@ -37,36 +35,21 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
-            );
-        }catch (BadCredentialsException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-//        UserDetails userDetails = userService.loadUserByUsername(authenticationRequest.getEmail());
-//        String token = jwtTokenUtil.generateToken(userDetails);
+        return userService.login(authenticationRequest);
+    }
+
+//    @GetMapping(value = "/updateProfile")
+//    public void updateProfile( @RequestHeader String Authorization){
+////        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
+////                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+////        System.out.println(usernamePasswordAuthenticationToken.getPrincipal().toString());
 //
-//        return ResponseEntity.ok(new AuthenticationResponse(,token));
-
-        CustomUser customUser = (CustomUser) userService.loadUserByUsername(authenticationRequest.getEmail());
-        String token = jwtTokenUtil.generateToken(customUser);
-
-        return ResponseEntity.ok(new AuthenticationResponse(customUser.getUsername(), customUser.getEmail(), token));
-    }
-
-    @GetMapping(value = "/updateProfile")
-    public void updateProfile( @RequestHeader String Authorization){
-//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
-//                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println(usernamePasswordAuthenticationToken.getPrincipal().toString());
-
-//            User user = userService.findByEmail(jwtTokenUtil.extractUsername(token));
-//            UserDetails userDetails = userService.loadUserByUsername()
-//        System.out.println(Authorization);
-        System.out.println("Error ====  "+ jwtTokenUtil.extractSubject(Authorization));
-
-
-    }
+////            User user = userService.findByEmail(jwtTokenUtil.extractUsername(token));
+////            UserDetails userDetails = userService.loadUserByUsername()
+////        System.out.println(Authorization);
+//        System.out.println("Error ====  "+ jwtTokenUtil.extractSubject(Authorization));
+//
+//
+//    }
 
 }
