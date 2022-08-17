@@ -27,15 +27,26 @@ public class CartController {
 
 
     @GetMapping("/getCart")
-    public ResponseEntity<?> getCart(@RequestHeader("Authorization") String token) {
-        System.out.println("Inside getCart");
-        if (jwtTokenUtil.validateToken(token)) {
-            System.out.println("Token is valid");
-            User user = userService.findByEmail(jwtTokenUtil.extractSubject(token));
-            return ResponseEntity.ok(cartService.findByUserId(user.getId()));
-        }else{
-            System.out.println("Token is not valid");
-            return ResponseEntity.badRequest().body("Invalid token");
+    public ResponseEntity<?> getCart(@RequestParam("email") String email) {
+        System.out.println(email);
+        User user = userService.findByEmail(email);
+        if(user==null){
+            return ResponseEntity.badRequest().body("User Not Found");
         }
+        return ResponseEntity.ok(cartService.findByUserId(user.getId()));
+
+    }
+
+    @PostMapping("/addToCart")
+    public ResponseEntity<?> addToCart(@RequestBody List<Cart> cart, @RequestParam("email") String email) {
+        User user = userService.findByEmail(email);
+        if(user==null){
+            return ResponseEntity.badRequest().body("User Not Found");
+        }
+        for (Cart cart1 : cart) {
+            cart1.setUser(user);
+            cartService.save(cart1);
+        }
+        return ResponseEntity.ok(cartService.findByUserId(user.getId()));
     }
 }
