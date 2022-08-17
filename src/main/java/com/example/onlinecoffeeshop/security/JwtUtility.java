@@ -21,8 +21,16 @@ public class JwtUtility {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtility.class);
 
 
+//    public String extractSubject(String token) {
+//        return extractClaim(token, Claims::getSubject);
+//    }
+
     public String extractSubject(String token) {
-        return extractClaim(token, Claims::getSubject);
+//        System.out.println("Error ====  "+Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject());
+//        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+        String extractedData = extractClaim(token, Claims::getSubject);
+        System.out.println("JWTUTILITY           "+extractedData);
+        return extractedData;
     }
 
 

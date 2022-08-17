@@ -55,15 +55,16 @@ public class UserController {
         return ResponseEntity.ok(new AuthenticationResponse(customUser.getUsername(), customUser.getEmail(), token));
     }
 
-    @PutMapping(value = "/updateProfile")
-    public void updateProfile(@RequestBody User user){
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken= (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        usernamePasswordAuthenticationToken.getPrincipal().toString();
-        System.out.println(usernamePasswordAuthenticationToken.getPrincipal().toString());
+    @GetMapping(value = "/updateProfile")
+    public void updateProfile( @RequestHeader String Authorization){
+//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=
+//                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println(usernamePasswordAuthenticationToken.getPrincipal().toString());
 
 //            User user = userService.findByEmail(jwtTokenUtil.extractUsername(token));
 //            UserDetails userDetails = userService.loadUserByUsername()
-            System.out.println(jwtTokenUtil.extractSubject(usernamePasswordAuthenticationToken.getPrincipal().toString()));
+//        System.out.println(Authorization);
+        System.out.println("Error ====  "+ jwtTokenUtil.extractSubject(Authorization));
 
 
     }
