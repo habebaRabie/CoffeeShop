@@ -4,12 +4,10 @@ import com.example.onlinecoffeeshop.dto.AuthenticationRequest;
 import com.example.onlinecoffeeshop.dto.AuthenticationResponse;
 import com.example.onlinecoffeeshop.dto.CustomUser;
 import com.example.onlinecoffeeshop.dto.UserDto;
-import com.example.onlinecoffeeshop.entity.Cart;
 import com.example.onlinecoffeeshop.entity.User;
 import com.example.onlinecoffeeshop.repository.UserRepository;
 import com.example.onlinecoffeeshop.security.JwtUtility;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +99,12 @@ public class UserService implements UserDetailsService {
 
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+
+    public User updateUser(UserDto user) {
+        User user1 = userRepository.findByEmail(user.getEmail());
+        user1.setUserName(user.getUserName());
+        user1.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user1);
     }
 }
