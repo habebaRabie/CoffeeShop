@@ -1,5 +1,6 @@
 package com.example.onlinecoffeeshop.security;
 
+import com.example.onlinecoffeeshop.dto.CustomUser;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +21,16 @@ public class JwtUtility {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtility.class);
 
 
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+//    public String extractSubject(String token) {
+//        return extractClaim(token, Claims::getSubject);
+//    }
+
+    public String extractSubject(String token) {
+//        System.out.println("Error ====  "+Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject());
+//        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+        String extractedData = extractClaim(token, Claims::getSubject);
+        System.out.println("JWTUTILITY           "+extractedData);
+        return extractedData;
     }
 
 
@@ -42,9 +51,9 @@ public class JwtUtility {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(CustomUser customUser) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, customUser.getEmail());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
