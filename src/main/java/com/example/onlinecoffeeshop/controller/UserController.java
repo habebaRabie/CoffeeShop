@@ -1,4 +1,5 @@
 package com.example.onlinecoffeeshop.controller;
+
 import com.example.onlinecoffeeshop.dto.AuthenticationRequest;
 import com.example.onlinecoffeeshop.dto.AuthenticationResponse;
 import com.example.onlinecoffeeshop.dto.CustomUser;
@@ -31,16 +32,21 @@ public class UserController {
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
     @PostMapping(value = "/add")
     public String createNewUser(@RequestBody UserDto user) throws Exception {
         userService.createNewUser(user);
         return "200 OK";
     }
 
-
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         return userService.login(authenticationRequest);
+    }
+
+    @PutMapping(value = "/update")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto user) {
+        return ResponseEntity.ok(userService.updateUser(user));
     }
 
 //    @GetMapping(value = "/updateProfile")
