@@ -27,8 +27,8 @@ public class CartController {
 
 
     @GetMapping("/getCart")
-    public ResponseEntity<?> getCart(@RequestBody String token) {
-        //check if token is valid
+    public ResponseEntity<?> getCart(@RequestHeader("Authorization") String token) {
+        System.out.println("Inside getCart");
         if (jwtTokenUtil.validateToken(token)) {
             System.out.println("Token is valid");
             User user = userService.findByEmail(jwtTokenUtil.extractSubject(token));

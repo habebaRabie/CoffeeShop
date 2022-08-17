@@ -26,6 +26,11 @@ public class UserController {
     @Autowired
     private JwtUtility jwtTokenUtil;
 
+
+    @GetMapping(value = "/getallusers")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
     @PostMapping(value = "/add")
     public String createNewUser(@RequestBody UserDto user) throws Exception {
         userService.createNewUser(user);

@@ -100,4 +100,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 }
