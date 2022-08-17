@@ -31,7 +31,7 @@ public class CartController {
         //check if token is valid
         if (jwtTokenUtil.validateToken(token)) {
             System.out.println("Token is valid");
-            User user = userService.findByEmail(jwtTokenUtil.extractUsername(token));
+            User user = userService.findByEmail(jwtTokenUtil.extractSubject(token));
             return ResponseEntity.ok(cartService.findByUserId(user.getId()));
         }else{
             System.out.println("Token is not valid");
